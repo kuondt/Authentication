@@ -23,7 +23,9 @@ namespace Authentication
                 config.UseInMemoryDatabase("Memory");
             });
 
+            //AddIdentity register the services
             services.AddIdentity<IdentityUser, IdentityRole>()
+                    .AddEntityFrameworkStores<AppDBContext>()
                     .AddDefaultTokenProviders();
 
             //services.AddAuthentication("CookieAuth")
