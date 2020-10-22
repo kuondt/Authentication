@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Authentication
+namespace Identity
 {
     public class Startup
     {
