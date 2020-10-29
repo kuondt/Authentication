@@ -91,10 +91,25 @@ namespace Identity.Controllers
             }
 
             return RedirectToAction("Index");
-        }
-        
+        }      
 
         public IActionResult EmailVerification() => View();
+
+        public async Task<IActionResult> VerifyEmail(string userId, string code)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null) return BadRequest();
+
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+
+            if (result.Succeeded)
+            {
+                return View();
+            }
+
+            return BadRequest();
+        }
 
         public async Task<IActionResult> LogOut()
         {
