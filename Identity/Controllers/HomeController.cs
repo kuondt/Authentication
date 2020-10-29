@@ -43,40 +43,9 @@ namespace Identity.Controllers
         {
             var user = await _userManager.FindByNameAsync(username);
 
-            if(user != null)
+            if (user != null)
             {
                 //sign in
-                var signInResult = await _signInManager.PasswordSignInAsync(user, password, false, false);
-
-                if(signInResult.Succeeded)
-                {
-                    return RedirectToAction("Index");
-                }
-            }
-            
-            return RedirectToAction("Index");
-        }
-
-        public IActionResult Register()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Register(string username,string password)
-        {
-            var user = new IdentityUser
-            {
-                UserName = username,
-                Email = "",
-                
-            };
-
-            var result = await _userManager.CreateAsync(user, password);
-
-            if (result.Succeeded)
-            {
-                //sign user
                 var signInResult = await _signInManager.PasswordSignInAsync(user, password, false, false);
 
                 if (signInResult.Succeeded)
@@ -87,6 +56,45 @@ namespace Identity.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(string username, string password)
+        {
+            var user = new IdentityUser
+            {
+                UserName = username,
+                Email = "",
+
+            };
+
+            var result = await _userManager.CreateAsync(user, password);
+
+            if (result.Succeeded)
+            {
+                //sign user
+                //var signInResult = await _signInManager.PasswordSignInAsync(user, password, false, false);
+
+                //if (signInResult.Succeeded)
+                //{
+                //    return RedirectToAction("Index");
+                //}
+
+
+                //generation of the email token
+                return RedirectToAction("EmailVerification");
+
+            }
+
+            return RedirectToAction("Index");
+        }
+        
+
+        public IActionResult EmailVerification() => View();
 
         public async Task<IActionResult> LogOut()
         {

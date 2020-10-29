@@ -30,6 +30,7 @@ namespace Identity
                 config.Password.RequireLowercase = false;
                 config.Password.RequireNonAlphanumeric = false;
                 config.Password.RequireUppercase = false;
+                config.SignIn.RequireConfirmedEmail = true;
             })
                     .AddEntityFrameworkStores<AppDBContext>()
                     .AddDefaultTokenProviders();
