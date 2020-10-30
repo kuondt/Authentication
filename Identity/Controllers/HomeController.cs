@@ -86,6 +86,10 @@ namespace Identity.Controllers
 
 
                 //generation of the email token
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                var link = Url.Action(nameof(VerifyEmail), "Home", new { userId = user.Id, code });
+
                 return RedirectToAction("EmailVerification");
 
             }
