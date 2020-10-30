@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NETCore.MailKit.Extensions;
 
 namespace Identity
 {
@@ -47,6 +48,10 @@ namespace Identity
             //            config.Cookie.Name = "Grandmas.Cookie";
             //            config.LoginPath = "/Home/Authenticate";
             //        });
+
+            services.AddMailKit(config => {
+                config.UseMailKit();
+            });
 
             services.AddControllersWithViews();
         }
