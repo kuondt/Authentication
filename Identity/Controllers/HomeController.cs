@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NETCore.MailKit.Core;
 
 namespace Identity.Controllers
 {
@@ -15,11 +16,13 @@ namespace Identity.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly IEmailService _emailService;
 
-        public HomeController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public HomeController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IEmailService emailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailService = emailService;
         }
 
         public IActionResult Index()
@@ -88,7 +91,9 @@ namespace Identity.Controllers
                 //generation of the email token
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-                var link = Url.Action(nameof(VerifyEmail), "Home", new { userId = user.Id, code });
+                var link = Url.Action(nameof(VerifyEmail), "Home", new { userId = user.Id, code, Request.Scheme, Request.Host });
+
+                await _emailService.SendAsync("test@test.com", "Email verify", $"<a href=\"{link}\">Verify email</a>", true);
 
                 return RedirectToAction("EmailVerification");
 
