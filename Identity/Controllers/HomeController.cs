@@ -93,7 +93,7 @@ namespace Identity.Controllers
 
                 var link = Url.Action(nameof(VerifyEmail), "Home", new { userId = user.Id, code, Request.Scheme, Request.Host });
 
-                await _emailService.SendAsync("test@test.com", "Email verify", $"<a href=\"{link}\">Verify email</a>", true);
+                await _emailService.SendAsync("cuong.263@gmail.com", "Email verify", $"<a href=\"{link}\">Verify email</a>", true);
 
                 return RedirectToAction("EmailVerification");
 
