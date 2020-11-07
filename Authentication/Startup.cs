@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Authentication.AuthorizationRequirements;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,7 +34,13 @@ namespace Authentication
                 //                        .RequireClaim(ClaimTypes.DateOfBirth)
                 //                        .Build();
                 //config.DefaultPolicy = defaultAuthPolicy;
+
+                config.AddPolicy("Claim.DoB", policyBuilder => {
+                    policyBuilder.RequireCustomClaim(ClaimTypes.DateOfBirth);
+                });
             });
+
+            services.AddScoped<IAuthorizationHandler, CustomRequireClaimHandler>();
 
             services.AddControllersWithViews();
         }
