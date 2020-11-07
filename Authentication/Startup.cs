@@ -35,6 +35,11 @@ namespace Authentication
                 //                        .Build();
                 //config.DefaultPolicy = defaultAuthPolicy;
 
+                config.AddPolicy("Admin", policyBuilder =>
+                {
+                    policyBuilder.RequireClaim(ClaimTypes.Role, "Admim");
+                });
+
                 config.AddPolicy("Claim.DoB", policyBuilder => {
                     policyBuilder.RequireCustomClaim(ClaimTypes.DateOfBirth);
                 });
